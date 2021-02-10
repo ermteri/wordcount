@@ -11,6 +11,7 @@ def get_text(file):
 
 def count_frequence(lines):
     freq = dict()
+    total_words = 0
     for line in lines:
         words = line.split()
         for word in words:
@@ -18,7 +19,8 @@ def count_frequence(lines):
                 freq[word] = freq[word] + 1
             else:
                 freq[word] = 1
-    return freq
+            total_words = total_words + 1
+    return freq, total_words
 
 
 def run(args):
@@ -28,10 +30,10 @@ def run(args):
 
     args = parser.parse_args()
     lines = get_text(args.file)
-    freq = count_frequence(lines)
+    freq, total_words = count_frequence(lines)
     for word in sorted(freq, key=freq.get, reverse=True):
         if freq[word] > 10:
-            print('{}: {}'.format(word, freq[word]))
+            print('{}: {}'.format(word, freq[word]/total_words * 1000000))
 
 
 if __name__ == '__main__':
